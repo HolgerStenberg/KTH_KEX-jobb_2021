@@ -21,8 +21,6 @@ reward_table[0, 2] = 100
 reward_table[1, 1:3] = -100
 
 
-
-
 def terminal_state(current_row, current_column):
     # The simulation is ended when the agent reaches a terminal state.
     if reward_table[current_row, current_column] == -1:
