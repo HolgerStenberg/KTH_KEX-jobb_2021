@@ -6,7 +6,7 @@ warehouse_rows = 3
 warehouse_columns = 4
 actions = ['left', 'right', 'up', 'down']
 
-# Representation of the warehouse
+# Representation of the warehouse.
 warehouse = numpy.full((warehouse_rows, warehouse_columns), "_")
 warehouse[2, 0] = "S"
 warehouse[0, 2] = "G"
