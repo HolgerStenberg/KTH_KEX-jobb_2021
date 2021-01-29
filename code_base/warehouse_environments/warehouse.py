@@ -1,10 +1,6 @@
 # for documentation ,check: wiki/program structure. 
 
-
-
-
 class Warehouse:
-	
 	
 	def __init__(self, __DEFAULT_SIZE = 10):
 		self.matrix = []
@@ -22,12 +18,17 @@ class Warehouse:
 		for i in self.matrix:
 			print(' '.join(str(i) for i in i))
 		print("\n")
+
+	def fill(self):
+		pass
+	
 def main():
 
 	obj = Warehouse()
 	obj.make()
  	
  	obj.show()
+ 	print("teest")
 
 if __name__ == '__main__':
 	main()
