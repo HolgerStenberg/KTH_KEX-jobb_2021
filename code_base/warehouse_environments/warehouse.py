@@ -2,16 +2,16 @@
 
 class Warehouse:
 	
-	def __init__(self, __DEFAULT_SIZE = 10):
+	def __init__(self, __ROWS = 10, __COLUMNS = 10):
+		#returns a matrix of 10x10 as default
 		self.matrix = []
-		self.__DEFAULT_SIZE = __DEFAULT_SIZE
+		self.__ROWS = __ROWS
+		self.__COLUMNS = __COLUMNS
+
+		for i in range(self.__ROWS):
+			self.matrix.append([0 for i in range(self.__COLUMNS)])
 
 		print("Warehouse object initiated")		
-
-	def make(self,default=None):
-	#returns a matrix of 10x10 as default
-		for i in range(self.__DEFAULT_SIZE):
-			self.matrix.append([0 for i in range(self.__DEFAULT_SIZE)])
 
 	def show(self):
 		print("\n")
@@ -19,13 +19,31 @@ class Warehouse:
 			print(' '.join(str(i) for i in i))
 		print("\n")
 
-	def fill(self):
-		pass
+	def obstacle_line(self,direction,row,col,length):
+
+		try:
+			for i in range(length):
+				self.matrix[row][col] = 1
+
+				if direction == "up":
+					row -= 1;
+
+				elif direction == "down":
+					row += 1;
+
+				elif direction == "left":
+					col -= 1;
+
+				elif direction == "right":
+					col += 1;
+
+		except:
+			print("out of bounds")
 	
 def main():
 
-	obj = Warehouse()
-	obj.make()
+	obj = Warehouse(5,2)
+
  	
  	obj.show()
  	print("teest")
