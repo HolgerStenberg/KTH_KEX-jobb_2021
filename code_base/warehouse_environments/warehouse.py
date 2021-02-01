@@ -1,7 +1,6 @@
 # for documentation ,check: wiki/program structure. 
 
-class Warehouse:
-	
+class Warehouse:	
 	def __init__(self, __ROWS = 10, __COLUMNS = 10):
 		#returns a matrix of 10x10 as default
 		self.matrix = []
@@ -13,38 +12,51 @@ class Warehouse:
 
 		print("Warehouse object initiated")		
 
+	def matrix_fill(self, row, column, fill_type = 1):
+
+		if (row > 0 and row <= self.__ROWS):
+			if (column > 0 and column <= self.__COLUMNS):
+				self.matrix[row-1][column-1] = fill_type
+				return 0
+			else:
+				print("FILL ERROR: column does not exist")
+		else:
+			print("FILL ERROR: row does not exist")
+		
+		return 1
+
 	def show(self):
+		#shows the matrix 
 		print("\n")
 		for i in self.matrix:
 			print(' '.join(str(i) for i in i))
 		print("\n")
 
-	def obstacle_line(self,direction,row,col,length):
 
-		try:
-			for i in range(length):
-				self.matrix[row][col] = 1
+	def obstacle_line(self,direction,row,column,length):
 
-				if direction == "up":
-					row -= 1;
+		for i in range(length):
+			self.matrix_fill(row, column)
 
-				elif direction == "down":
-					row += 1;
+			if direction == "up":
+				row -= 1;
 
-				elif direction == "left":
-					col -= 1;
+			elif direction == "down":
+				row += 1;
 
-				elif direction == "right":
-					col += 1;
+			elif direction == "left":
+				column -= 1;
 
-		except:
-			print("out of bounds")
+			elif direction == "right":
+				column += 1;
 	
+
+#only run if this file is executed as only file
 def main():
 
 	obj = Warehouse(5,2)
 
- 	
+ 	obj.obstacle_line("left", 0, 0, 3)
  	obj.show()
  	print("teest")
 

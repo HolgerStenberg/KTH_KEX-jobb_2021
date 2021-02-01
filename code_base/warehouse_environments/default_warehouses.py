@@ -19,17 +19,15 @@ def default_warehouse_1():
 
 def default_warehouse_2():
 
-	row_q = 10
-	col_q = 10
+	row_q = 5
+	col_q = 5
 
 	env = Warehouse(row_q,col_q)
 
 	for i in range(row_q):
 		if i%4 == 0:
-			env.obstacle_line("right",i, 0, 4)
+			env.obstacle_line("right",i, 0, 6)
 			env.obstacle_line("left",i,-1,4)
-
-
 
 	return env
 
