@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2021-02-02T16:30:10.572Z" agent="5.0 (Macintosh; Intel Mac OS X 10_15_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.96 Safari/537.36" etag="urSLwJ5KCqXqHJ9Pt5yW" version="14.2.9" type="github">
+<mxfile host="app.diagrams.net" modified="2021-02-02T16:40:34.147Z" agent="5.0 (Macintosh; Intel Mac OS X 10_15_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.96 Safari/537.36" etag="X7raIN1c6lqmHc_lY9Rr" version="14.2.9" type="github">
   <diagram id="Axaw1c1yG8BHVxGf_41Q" name="System overview">
     <mxGraphModel dx="2703" dy="1780" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="2336" pageHeight="1654" background="#000000" math="0" shadow="0">
       <root>
@@ -24,11 +24,16 @@
           </mxCell>
         </object>
         <mxCell id="D55uIrlg8XAKscRB0JJY-10" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.25;entryY=0;entryDx=0;entryDy=0;strokeColor=#FFFFFF;strokeWidth=9;" edge="1" parent="1" source="D55uIrlg8XAKscRB0JJY-3" target="fk-Ki8HbiVKFgRnxKCto-11">
-          <mxGeometry relative="1" as="geometry" />
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="710" y="640" />
+              <mxPoint x="1040" y="640" />
+            </Array>
+          </mxGeometry>
         </mxCell>
         <object label="&lt;b style=&quot;font-size: 66px;&quot;&gt;%Module%&lt;br style=&quot;font-size: 66px;&quot;&gt;&lt;/b&gt;" Module="Q_reward.py" Input_1="" Input_2="" Output_1="" Output_2="" placeholders="1" Comments="" id="D55uIrlg8XAKscRB0JJY-3">
           <mxCell style="rounded=1;whiteSpace=wrap;html=1;fontSize=66;fontFamily=Verdana;fillColor=#99CCFF;glass=0;shadow=0;sketch=0;strokeWidth=1;arcSize=24;opacity=90;" vertex="1" parent="1">
-            <mxGeometry x="480" y="240" width="500" height="160" as="geometry" />
+            <mxGeometry x="470" y="320" width="490" height="160" as="geometry" />
           </mxCell>
         </object>
         <object label="&lt;b style=&quot;font-size: 66px;&quot;&gt;%Module%&lt;br style=&quot;font-size: 66px;&quot;&gt;&lt;/b&gt;" Module="Algo.py" Input_1="" Input_2="" Output_1="" Output_2="" placeholders="1" Comments="" id="D55uIrlg8XAKscRB0JJY-4">
@@ -44,15 +49,20 @@
         </mxCell>
         <object label="&lt;b style=&quot;font-size: 66px;&quot;&gt;%Module%&lt;br style=&quot;font-size: 66px;&quot;&gt;&lt;/b&gt;" Module="Visualiser.py" Input_1="" Input_2="" Output_1="" Output_2="" placeholders="1" Comments="" id="D55uIrlg8XAKscRB0JJY-6">
           <mxCell style="rounded=1;whiteSpace=wrap;html=1;fontSize=66;fontFamily=Verdana;fillColor=#99CCFF;glass=0;shadow=0;sketch=0;strokeWidth=1;arcSize=24;opacity=90;" vertex="1" parent="1">
-            <mxGeometry x="1600" y="720" width="500" height="160" as="geometry" />
+            <mxGeometry x="1520" y="720" width="500" height="160" as="geometry" />
           </mxCell>
         </object>
         <mxCell id="D55uIrlg8XAKscRB0JJY-9" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.75;entryY=0;entryDx=0;entryDy=0;strokeColor=#FFFFFF;strokeWidth=9;" edge="1" parent="1" source="D55uIrlg8XAKscRB0JJY-8" target="fk-Ki8HbiVKFgRnxKCto-11">
-          <mxGeometry relative="1" as="geometry" />
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1720" y="640" />
+              <mxPoint x="1200" y="640" />
+            </Array>
+          </mxGeometry>
         </mxCell>
         <object label="&lt;b style=&quot;font-size: 66px;&quot;&gt;%Module%&lt;br style=&quot;font-size: 66px;&quot;&gt;&lt;/b&gt;" Module="Simulation_parameters.txt" Input_1="" Input_2="" Output_1="" Output_2="" placeholders="1" Comments="" id="D55uIrlg8XAKscRB0JJY-8">
           <mxCell style="rounded=1;whiteSpace=wrap;html=1;fontSize=66;fontFamily=Verdana;fillColor=#99CCFF;glass=0;shadow=0;sketch=0;strokeWidth=1;arcSize=24;opacity=90;" vertex="1" parent="1">
-            <mxGeometry x="1200" y="230" width="1040" height="160" as="geometry" />
+            <mxGeometry x="1200" y="320" width="1040" height="160" as="geometry" />
           </mxCell>
         </object>
         <mxCell id="D55uIrlg8XAKscRB0JJY-12" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#FFFFFF;strokeWidth=9;entryX=1;entryY=0.75;entryDx=0;entryDy=0;exitX=0;exitY=0.75;exitDx=0;exitDy=0;" edge="1" parent="1" source="fk-Ki8HbiVKFgRnxKCto-11" target="D55uIrlg8XAKscRB0JJY-1">
