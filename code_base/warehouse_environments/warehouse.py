@@ -54,11 +54,12 @@ class Warehouse:
 #only run if this file is executed as only file
 def main():
 
-	obj = Warehouse(5,2)
+	obj = Warehouse(5,5)
+	obj.show()
 
- 	obj.obstacle_line("left", 0, 0, 3)
+ 	obj.obstacle_line("right", 1, 1, 3)
  	obj.show()
- 	print("teest")
+ 	#print("teest")
 
 if __name__ == '__main__':
 	main()
