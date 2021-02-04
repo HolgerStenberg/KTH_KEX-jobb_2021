@@ -1,4 +1,4 @@
-from warehouse import Warehouse
+from warehouse_environments.warehouse import Warehouse
 
 def default_warehouse_1():
 
