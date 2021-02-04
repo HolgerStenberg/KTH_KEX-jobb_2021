@@ -2,15 +2,14 @@ import sys
 sys.path.append('../')
 
 from warehouse_environments.warehouse import Warehouse
+from warehouse_environments.warehouse_johan import *
 from warehouse_environments.default_warehouses import *
 
 def main():
 
+	#get_warehouse(10,10,4)
 
-	env = Warehouse(5,5)
-
-	env.matrix_fill(5,5)
-	env.obstacle_line("right",1,1,6)
+	env = default_warehouse_1()
 
 	env.show()
 

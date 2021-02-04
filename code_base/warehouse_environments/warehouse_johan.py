@@ -1,5 +1,6 @@
 import numpy
 import random
+from warehouse import Warehouse
 
 
 def get_warehouse(rows, columns, number_of_agents):
@@ -9,8 +10,8 @@ def get_warehouse(rows, columns, number_of_agents):
     # n + 1 = starting point for robot n. (n > 0)
     # n + 2 = ending point for robot n.
 
-    environment = numpy.full((rows, columns), 0)
-
+    #environment = numpy.full((rows, columns), 0)
+    environment = Warehouse(10,10)
     # Generate starting points.
     occupied_states = []
     for n in range(number_of_agents):

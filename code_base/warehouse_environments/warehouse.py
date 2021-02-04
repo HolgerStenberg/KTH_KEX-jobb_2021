@@ -8,11 +8,11 @@ class Warehouse:
 		self.__COLUMNS = __COLUMNS
 
 		for i in range(self.__ROWS):
-			self.matrix.append([0 for i in range(self.__COLUMNS)])
+			self.matrix.append(["." for i in range(self.__COLUMNS)])
 
 		print("Warehouse object initiated")		
 
-	def matrix_fill(self, row, column, fill_type = 1):
+	def matrix_fill(self, row, column, fill_type = "H"):
 
 		if (row > 0 and row <= self.__ROWS):
 			if (column > 0 and column <= self.__COLUMNS):
@@ -54,8 +54,8 @@ class Warehouse:
 #only run if this file is executed as only file
 def main():
 
-	obj = Warehouse(5,5)
-	obj.show()
+	obj = Warehouse(4,4)
+	print(obj.matrix)
 
  	obj.obstacle_line("right", 1, 1, 3)
  	obj.show()
