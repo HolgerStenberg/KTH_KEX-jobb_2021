@@ -56,9 +56,8 @@ def main():
 
 	obj = Warehouse(4,4)
 	print(obj.matrix)
-
- 	obj.obstacle_line("right", 1, 1, 3)
- 	obj.show()
+	obj.obstacle_line("right", 1, 1, 3)
+	obj.show()
  	#print("teest")
 
 if __name__ == '__main__':
