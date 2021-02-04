@@ -14,7 +14,6 @@ def default_warehouse_1():
 	env.matrix_fill(1,6,"a")
 	env.matrix_fill(5,6,"b")
 
-
 	env.matrix_fill(5,1,"A")
 	env.matrix_fill(2,1,"B")
 
