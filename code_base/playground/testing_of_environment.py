@@ -8,7 +8,7 @@ def main():
 
 	#get_warehouse(10,10,4)
 
-	env = default_warehouse_1()
+	env = default_warehouse_4()
 
 	env.show()
 
