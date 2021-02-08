@@ -3,6 +3,7 @@
 class Warehouse:	
 	def __init__(self, __ROWS = 10, __COLUMNS = 10):
 		#returns a matrix of 10x10 as default
+		self.agents = 0
 		self.matrix = []
 		self.__ROWS = __ROWS
 		self.__COLUMNS = __COLUMNS
@@ -24,6 +25,14 @@ class Warehouse:
 			print("FILL ERROR: row does not exist")
 		
 		return 1
+
+
+	def add_agent(self, row, col, target_row, target_col):
+		#fills agents as lower case, and add goals as upper case.
+		self.matrix_fill(row,col,chr(ord('a')+self.agents))
+		self.matrix_fill(target_row,target_col,chr(ord('A')+self.agents))
+		self.agents += 1
+
 
 	def show(self):
 		#shows the matrix 
