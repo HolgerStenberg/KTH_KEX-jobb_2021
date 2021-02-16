@@ -101,12 +101,14 @@ def training():
 
 
 def main():
-    print("\nBelow is a representation of the warehouse.")
+    print("\nA graphical representation of the warehouse:")
     print("\n", warehouse[0, :], "\n", warehouse[1, :],"\n", warehouse[2, :])
-    print("\n\nBelow is a representation of the reward table.\n\n", reward_table)
+    print("\nEach state gets a reward value assigned to it:\n\n", reward_table)
+    print("\nQ-table before training:\n\n", q_value_table)
     training()
+    print("\nQ-table after training (1000 simulations):\n\n",q_value_table)
     print("\n\nThe shortest path is: ", show_shortest_path())
-    print("\n\nQ-table after training (1000 simulations):\n\n", q_value_table)
+
 
 
 main()
