@@ -1,4 +1,4 @@
-from code_base.warehouse_environments.warehouse import Warehouse
+from warehouse_environments.warehouse import Warehouse
 
 def default_warehouse_1():
 
@@ -8,6 +8,8 @@ def default_warehouse_1():
 
 	env.obstacle_line("right",3, 2, 2)
 	env.add_agent(1,4,4,1)
+
+	env.set_start_state()
 	
 	return env
 
@@ -22,6 +24,8 @@ def default_warehouse_2():
 
 	env.add_agent(1,1,6,1)
 	env.add_agent(6,6,1,2)
+
+	env.set_start_state()
 
 	return env
 
@@ -42,6 +46,8 @@ def default_warehouse_3():
 	env.add_agent(7,2,8,8)
 	env.add_agent(8,5,1,1)
 	env.add_agent(1,4,1,7)
+
+	env.set_start_state()
 	
 	return env
 
