@@ -2,32 +2,37 @@ from warehouse_environments.warehouse import Warehouse
 
 def default_warehouse_1():
 
-	row_q = 4
-	col_q = 4
-	env = Warehouse(row_q,col_q)
 
-	env.obstacle_line("right",3, 2, 2)
-	env.add_agent(1,4,4,1)
+	obj = Warehouse(5,5)
+	obj.add_agent(2,2,4,4)
+	obj.add_agent(2,4,4,2)
 
-	env.set_start_state()
+	obj.obstacle_line("down",3,3,1)
+	obj.obstacle_line("right",1,1,5)
+	obj.obstacle_line("right",5,1,5)
+	obj.obstacle_line("down",2,1,3)
+	obj.obstacle_line("down",2,5,3)
+
+	obj.set_start_state()
 	
-	return env
+	return obj
 
 def default_warehouse_2():
 
-	row_q = 6
-	col_q = 6
-	env = Warehouse(row_q,col_q)
+	obj = Warehouse(7,7)
+	obj.add_agent(2,2,2,4)
+	obj.add_agent(6,2,6,4)
+	obj.add_agent(2,6,5,4)
 
-	env.obstacle_line("right",4,1,3)
-	env.obstacle_line("left",1,6,3)
+	obj.obstacle_line("down",4,5,3)
+	obj.obstacle_line("right",1,1,7)
+	obj.obstacle_line("right",7,1,7)
+	obj.obstacle_line("down",2,1,5)
+	obj.obstacle_line("down",2,7,5)
 
-	env.add_agent(1,1,6,1)
-	env.add_agent(6,6,1,2)
-
-	env.set_start_state()
-
-	return env
+	obj.set_start_state()
+	
+	return obj
 
 def default_warehouse_3():
 

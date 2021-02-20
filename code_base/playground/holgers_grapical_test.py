@@ -13,12 +13,6 @@ def main():
 	#get_warehouse(10,10,4)
 
 
-	
-
-
-
-	
-
 	for i in range(10):
 		print("\033[1;41m" + "simulation run: {}".format(i) + "\033[1;m")
 
