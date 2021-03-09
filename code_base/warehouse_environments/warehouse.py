@@ -3,6 +3,7 @@ import time
 import copy
 import random
 
+
 class Warehouse:	
 	def __init__(self, __ROWS = 10, __COLUMNS = 10):
 		#returns a matrix of 10x10 as default

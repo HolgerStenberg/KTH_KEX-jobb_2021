@@ -1,4 +1,6 @@
-from warehouse_environments.warehouse import Warehouse
+from code_base.warehouse_environments import *
+from code_base.warehouse_environments.warehouse import Warehouse
+
 
 def default_warehouse_1():
 

@@ -85,6 +85,7 @@ def training():
         while not terminal_state(row_index, column_index):
             # choose which action to take (i.e., where to move next)
             action_index = next_action(row_index, column_index, epsilon)
+            print(action_index)
 
             # perform the chosen action, and transition to the next state (i.e., move to the next location)
             old_row_index, old_column_index = row_index, column_index  # store the old row and column indexes
@@ -108,7 +109,6 @@ def main():
     training()
     print("\nQ-table after training (1000 simulations):\n\n",q_value_table)
     print("\n\nThe shortest path is: ", show_shortest_path())
-
 
 
 main()

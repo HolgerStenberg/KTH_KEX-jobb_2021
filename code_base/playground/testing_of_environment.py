@@ -4,10 +4,11 @@ import time
 import numpy as np
 
 import sys
+
+from code_base.warehouse_environments.default_warehouses import default_warehouse_2, default_warehouse_1
+
 sys.path.append('../')
 
-from warehouse_environments.warehouse import Warehouse
-from warehouse_environments.default_warehouses import *
 
 def main():
 
@@ -16,7 +17,6 @@ def main():
 	max_steps_per_episode = 200
 	learning_rate = 0.3
 	discount_rate = 0.9999
-
 	exploration_rate = 1
 	max_exploration_rate = 1
 	min_exploration_rate = 0.1
@@ -26,23 +26,19 @@ def main():
 	#reward list, for performance check
 	rewards_all_episodes = []
 
-
-	env = default_warehouse_2()
+	env = default_warehouse_1()
 	action_space_size = env.num_actions
 	state_space_size = env.total_states
-
 	q_table = np.zeros((state_space_size, action_space_size))
 	env.show()
-
 	# Q-Learning algorithm
 	for episode in range(num_episodes):
-		
 		state = env.reset()
 
 		done = False
 		rewards_current_episode = 0
 
-		for step in range (max_steps_per_episode):
+		for step in range(max_steps_per_episode):
 
 			#Exploration-exploitation trade-off
 			exploration_rate_threshold = random.uniform(0,1)
@@ -57,7 +53,7 @@ def main():
 				print("exploration_rate: {}".format(exploration_rate))
 				print("most recent reward: {}".format(rewards_all_episodes[-1]))
 				env.show()
-				time.sleep(0.2)
+				time.sleep(1)
 
 			new_state, reward, done = env.step(action)
 

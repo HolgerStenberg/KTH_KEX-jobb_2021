@@ -3,9 +3,9 @@ import os
 import time
 import numpy as np
 
+from code_base.warehouse_environments.default_warehouses import default_warehouse_3, default_warehouse_4
+
 sys.path.append('../')
-from warehouse_environments.warehouse import Warehouse
-from warehouse_environments.default_warehouses import *
 
 
 def main():
