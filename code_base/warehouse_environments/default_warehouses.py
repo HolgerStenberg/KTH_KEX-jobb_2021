@@ -2,6 +2,24 @@ from code_base.warehouse_environments import *
 from code_base.warehouse_environments.warehouse import Warehouse
 
 
+def default_warehouse_0():
+
+
+	obj = Warehouse(7,7)
+	obj.add_agent(3,3,5,5)
+
+	obj.obstacle_line("right",1,1,7)
+	obj.obstacle_line("right",7,1,7)
+	obj.obstacle_line("down",2,1,5)
+	obj.obstacle_line("down",2,7,5)
+
+	obj.set_start_state()
+
+	obj.show()
+	
+	return obj
+
+
 def default_warehouse_1():
 
 
@@ -24,7 +42,7 @@ def default_warehouse_2():
 	obj = Warehouse(7,7)
 	obj.add_agent(2,2,2,4)
 	obj.add_agent(6,2,6,4)
-	obj.add_agent(2,6,5,4)
+	obj.add_agent(6,6,5,4)
 
 	obj.obstacle_line("down",4,5,3)
 	obj.obstacle_line("right",1,1,7)
@@ -33,6 +51,8 @@ def default_warehouse_2():
 	obj.obstacle_line("down",2,7,5)
 
 	obj.set_start_state()
+
+	obj.show()
 	
 	return obj
 
@@ -55,6 +75,8 @@ def default_warehouse_3():
 	env.add_agent(1,4,1,7)
 
 	env.set_start_state()
+
+	env.show()
 	
 	return env
 
@@ -79,8 +101,44 @@ def default_warehouse_4():
 	env.add_agent(1,5,5,10)
 	env.add_agent(10,2,4,9)
 	env.add_agent(2,1,8,8)
+
+	env.set_start_state()
 	
 	return env
 
-			
+def default_warehouse_5():	
+
+	obj = Warehouse(7,7)
+	obj.add_agent(2,2,2,4)
+	obj.add_agent(6,2,6,4)
+	obj.add_agent(6,6,5,4)
+	obj.add_agent(3,3,6,2)
+
+	obj.obstacle_line("down",4,5,3)
+	obj.obstacle_line("right",1,1,7)
+	obj.obstacle_line("right",7,1,7)
+	obj.obstacle_line("down",2,1,5)
+	obj.obstacle_line("down",2,7,5)
+
+	obj.set_start_state()
+	
+	return obj
+
+def default_warehouse_6():	
+
+	obj = Warehouse(7,7)
+	obj.add_agent(2,2,4,4)
+	
+
+	obj.obstacle_line("down",4,5,3)
+	obj.obstacle_line("right",1,1,7)
+	obj.obstacle_line("right",7,1,7)
+	obj.obstacle_line("down",2,1,5)
+	obj.obstacle_line("down",2,7,5)
+
+	obj.set_start_state()
+
+	obj.show()
+	
+	return obj
 

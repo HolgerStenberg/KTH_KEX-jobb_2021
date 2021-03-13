@@ -13,10 +13,18 @@ sys.path.append('../')
 def main():
 
 	#input data
+
+	num_episodes = 500000
+	max_steps_per_episode = 100
+	learning_rate = 0.5
+	discount_rate = 0.99999
+
+
 	num_episodes = 300000
 	max_steps_per_episode = 200
 	learning_rate = 0.3
 	discount_rate = 0.9999
+
 	exploration_rate = 1
 	max_exploration_rate = 1
 	min_exploration_rate = 0.1

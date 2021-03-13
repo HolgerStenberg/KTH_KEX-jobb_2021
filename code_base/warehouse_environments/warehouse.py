@@ -2,6 +2,7 @@
 import time
 import copy
 import random
+import numpy as np
 
 
 class Warehouse:	
@@ -82,13 +83,22 @@ class Warehouse:
 
 
 	#RESETS BACK TO START STATE
-	def reset(self): 
+	def reset(self, DQN = False): 
 
 		#print("Reseting")
 		self.current_state = copy.deepcopy(self.start_state)
 		self.matrix = copy.deepcopy(self.start_matrix)
 
-		return self.get_state(self.start_state)
+		if DQN == False:
+			return self.get_state(self.start_state)
+
+		else:
+			np_array = []
+			for i in self.start_state:
+				for j in i:
+					np_array.append(j)
+			
+			return np.array(np_array)
 
 
 	def sample_action(self):
@@ -140,7 +150,7 @@ class Warehouse:
 
 
 	#IN SIMULATION
-	def step(self, action):
+	def step(self, action, DQN = False):
 
 		#parsing of action:
 		action_list = []
@@ -184,11 +194,18 @@ class Warehouse:
 			else:
 				pass
 
-
 		new_state = self.get_state(self.current_state)
 		reward,done = self.reward_table[new_state]
 		
-		return (new_state, reward, done)
+		if DQN == True:
+			np_array = []
+			for i in self.current_state:
+				for j in i:
+					np_array.append(j)
+
+			return(np.array(np_array), reward, done)
+		else:
+			return (new_state, reward, done)
 
 	#CONSTRUCTION OF ENVIRONMENT *********
 
@@ -296,7 +313,9 @@ def main():
 	obj.add_agent(1,2,2,3)
 	obj.set_start_state()
 	
-	print(obj.step(0))
+	print(obj.step(0,DQN=True))
+
+	print(obj.reset(DQN=True))
 
 
 if __name__ == '__main__':
