@@ -1,12 +1,12 @@
-from code_base.warehouse_environments import *
-from code_base.warehouse_environments.warehouse import Warehouse
+from warehouse_environments import *
+from warehouse_environments.warehouse import Warehouse
 
 
 def default_warehouse_0():
 
 
 	obj = Warehouse(7,7)
-	obj.add_agent(3,3,5,5)
+	obj.add_agent(3,3,6,6)
 
 	obj.obstacle_line("right",1,1,7)
 	obj.obstacle_line("right",7,1,7)
@@ -127,7 +127,7 @@ def default_warehouse_5():
 def default_warehouse_6():	
 
 	obj = Warehouse(7,7)
-	obj.add_agent(2,2,4,4)
+	obj.add_agent(2,2,4,6)
 	
 
 	obj.obstacle_line("down",4,5,3)

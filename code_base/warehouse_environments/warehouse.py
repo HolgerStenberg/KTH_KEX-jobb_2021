@@ -16,6 +16,7 @@ class Warehouse:
 		self.current_state = []
 		self.goal_state = []
 		self.obstacles_coords = []
+		self.available_start_states = []
 
 
 		self.num_actions = 0 
@@ -82,33 +83,19 @@ class Warehouse:
 		return the_list
 
 
-	#RESETS BACK TO START STATE
-	def reset(self, DQN = False): 
+	def update_robot_location_graphics(self,robot_id,action,start_move = False):
 
-		#print("Reseting")
-		self.current_state = copy.deepcopy(self.start_state)
-		self.matrix = copy.deepcopy(self.start_matrix)
+		
+		if start_move == True:
+			self.matrix_fill(self.start_state[robot_id][0],\
+				self.start_state[robot_id][1],'.')
 
-		if DQN == False:
-			return self.get_state(self.start_state)
+			self.matrix_fill(self.current_state[robot_id][0],\
+				(self.current_state[robot_id][1]),chr(ord('a')+robot_id))
 
-		else:
-			np_array = []
-			for i in self.start_state:
-				for j in i:
-					np_array.append(j)
-			
-			return np.array(np_array)
-
-
-	def sample_action(self):
-		return random.randint(0, self.num_actions-1)
-
-
-	def update_robot_location_graphics(self,robot_id,action):
 
 		# stay
-		if (action == 0):
+		elif (action == 0):
 			pass
 		
 		# go right
@@ -147,6 +134,46 @@ class Warehouse:
 
 		else:
 			pass
+
+
+	def add_to_available_start_states(self):
+		for rows in range(self.__ROWS):
+			for columns in range(self.__COLUMNS):
+				if not [rows+1,columns+1] in self.obstacles_coords:
+					self.available_start_states.append([rows+1,columns+1])
+
+
+	#RESETS BACK TO START STATE
+	def reset(self, DQN = False, randomised_position = False):
+
+		self.current_state = copy.deepcopy(self.start_state)
+		self.matrix = copy.deepcopy(self.start_matrix) 
+
+		if randomised_position == True: 
+			if self.available_start_states == []:
+				self.add_to_available_start_states()
+			
+			self.current_state = copy.deepcopy([random.choice(self.available_start_states)])
+			self.update_robot_location_graphics(0,-1,start_move=True)
+			
+
+		if DQN == False:
+			return self.get_state(self.start_state)
+
+		else:
+			np_array = []
+			for i in self.start_state:
+				for j in i:
+					np_array.append(j)
+			
+			return np.array(np_array)
+
+
+	def sample_action(self):
+		return random.randint(0, self.num_actions-1)
+
+
+	
 
 
 	#IN SIMULATION
@@ -220,18 +247,28 @@ class Warehouse:
 
 		#init
 		for i in range(self.total_states):
-			self.reward_table.append((-1,False)) 
+			self.reward_table.append((-0.1,False)) 
 		
 		#find combo of goals, that should get 100 points:
 		stated = self.get_state(self.goal_state)
-		self.reward_table[stated] = (100,True)
+		self.reward_table[stated] = (2,True)
+
+		'''
+		tmp_state = copy.deepcopy(self.goal_state)
+		for i in range(len(self.goal_state)):
+			for j in range(len(self.goal_state[i])):
+				tmp_state[i][j] += 1
+				print(tmp_state)
+				tmp_state = copy.deepcopy(self.goal_state)
+			
+		'''
 
 
 		#add forbidden states - robot collision:
 		if (self.agents > 1):
 			for i in range(self.total_states):
 				if len(self.get_state_lst(i,False)) != len(set(self.get_state_lst(i,False))):
-					self.reward_table[i] = (-100,True)
+					self.reward_table[i] = (-1,True)
 
 
 		#add forbidden states - obstacle collision:
@@ -241,14 +278,15 @@ class Warehouse:
 			for state in range(self.total_states):
 				coord_state = self.get_state_lst(state)
 				if given_obstacle_coord in coord_state:
-					self.reward_table[state] = (-100,True)
+					self.reward_table[state] = (-1,True)
 
+			
 
 	#SETS A START STATE
 	def set_start_state(self):
 		
 		self.start_state = copy.deepcopy(self.current_state)
-		
+			
 		print("start_state generated!")
 		print("num of robots: {}".format(self.agents))
 
@@ -308,14 +346,20 @@ class Warehouse:
 #only run if this file is executed as only file
 def main():
 
-	obj = Warehouse(3,3)
+	obj = Warehouse(4,4)
 	obj.add_agent(1,1,3,3)
-	obj.add_agent(1,2,2,3)
+	obj.obstacle_line('right',2,1,1)
 	obj.set_start_state()
+
+	obj.show()
 	
 	print(obj.step(0,DQN=True))
 
-	print(obj.reset(DQN=True))
+	print(obj.reset(DQN=True,randomised_position=True))
+
+	obj.show()
+
+
 
 
 if __name__ == '__main__':
