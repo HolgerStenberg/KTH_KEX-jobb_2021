@@ -6,11 +6,11 @@ import numpy as np
 
 
 class Warehouse:	
-	def __init__(self, __ROWS = 10, __COLUMNS = 10):
+	def __init__(self, ROWS = 10, COLUMNS = 10):
 		#returns a matrix of 10x10 as default
 		self.matrix = []
-		self.__ROWS = __ROWS
-		self.__COLUMNS = __COLUMNS
+		self.ROWS = ROWS
+		self.COLUMNS = COLUMNS
 
 		self.agents = 0
 		self.current_state = []
@@ -22,8 +22,8 @@ class Warehouse:
 		self.num_actions = 0 
 		self.total_states = 0
 
-		for i in range(self.__ROWS):
-			self.matrix.append(["." for i in range(self.__COLUMNS)])
+		for i in range(self.ROWS):
+			self.matrix.append(["." for i in range(self.COLUMNS)])
 
 		print("Warehouse object initiated")	
 
@@ -42,14 +42,14 @@ class Warehouse:
 
 		state = 0
 		robot_counter = 0
-		matrix_size = self.__COLUMNS * self.__ROWS
+		matrix_size = self.COLUMNS * self.ROWS
 
 		for i in wanted_state:
 			
 			multiplier = matrix_size ** robot_counter
 			robot_counter+= 1
 
-			state += ((i[0]-1)*self.__COLUMNS + (i[1]-1))*multiplier
+			state += ((i[0]-1)*self.COLUMNS + (i[1]-1))*multiplier
 
 		return state
 
@@ -58,7 +58,7 @@ class Warehouse:
 		the_list = []
 
 		for i in range(self.agents):
-			action_modulus = (self.__ROWS*self.__COLUMNS)**(self.agents-i-1)
+			action_modulus = (self.ROWS*self.COLUMNS)**(self.agents-i-1)
 			action_counter = 0
 			while state >= action_modulus:
 
@@ -69,9 +69,9 @@ class Warehouse:
 
 				tmp_list = [0,0]
 				
-				while action_counter >= self.__COLUMNS:
+				while action_counter >= self.COLUMNS:
 					tmp_list[0] += 1
-					action_counter -= self.__COLUMNS
+					action_counter -= self.COLUMNS
 
 				tmp_list[1] = action_counter+1
 				tmp_list[0] += 1
@@ -137,8 +137,8 @@ class Warehouse:
 
 
 	def add_to_available_start_states(self):
-		for rows in range(self.__ROWS):
-			for columns in range(self.__COLUMNS):
+		for rows in range(self.ROWS):
+			for columns in range(self.COLUMNS):
 				if not [rows+1,columns+1] in self.obstacles_coords:
 					self.available_start_states.append([rows+1,columns+1])
 
@@ -244,16 +244,16 @@ class Warehouse:
 
 		self.reward_table = []
 		#total amount of states:
-		self.total_states = ((self.__COLUMNS*self.__ROWS)**self.agents) 
+		self.total_states = ((self.COLUMNS*self.ROWS)**self.agents) 
 		print("total states: {}".format(self.total_states))
 
 		#init
 		for i in range(self.total_states):
-			self.reward_table.append((-0.1,False)) 
+			self.reward_table.append((-0.01,False)) 
 		
 		#find combo of goals, that should get 100 points:
 		stated = self.get_state(self.goal_state)
-		self.reward_table[stated] = (6,True)
+		self.reward_table[stated] = (2,True)
 
 		'''
 		tmp_state = copy.deepcopy(self.goal_state)
@@ -331,8 +331,8 @@ class Warehouse:
 	
 	def matrix_fill(self, row, column, fill_type = "H"):
 
-		if (row > 0 and row <= self.__ROWS):
-			if (column > 0 and column <= self.__COLUMNS):
+		if (row > 0 and row <= self.ROWS):
+			if (column > 0 and column <= self.COLUMNS):
 				self.matrix[row-1][column-1] = fill_type
 				return 0
 			else:
