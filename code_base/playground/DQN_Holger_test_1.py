@@ -25,8 +25,8 @@ from agent_classes.DQN_holger import DQN_agent
 
 # HYPER PARAMETERS
 BATCH_SIZE = 8
-NUM_EPISODES = 2_000
-MAX_EPISODE_STEPS = 50
+NUM_EPISODES = 4_000
+MAX_EPISODE_STEPS = 20
 
 
 STATES = 2
@@ -46,7 +46,7 @@ def main():
 	rewards_current_episode = 0  # only for human metrics
 
 
-	moving_average_20 = deque(maxlen=40) # only for human metrics
+	moving_average_20 = deque(maxlen=80) # only for human metrics
 	state = np.array([])
 
 	for episode in range(NUM_EPISODES):
@@ -60,6 +60,7 @@ def main():
 	
 		done = False
 		rewards_current_episode = 0
+		reward = 0
 
 		#iteration process
 		for step in range (MAX_EPISODE_STEPS):
@@ -68,22 +69,24 @@ def main():
 			action = agent.act(state)
 
 			
-			
-			if (episode % 10 == 0): # to see what is going on (simulation)
+			"""
+			if (episode > 1000 == 0): # to see what is going on (simulation)
 				os.system('clear')
 				print("\033[1;41m" + "simulation run: {}".format(episode) + "\033[1;m")
+				print(f"reward: {reward}")
 				#print("most recent reward: {}".format(rewards_all_episodes[-1]))
 				env.show()
 				time.sleep(0.5)
-			
+			"""
 
 			new_state, reward, done = env.step(action,DQN=True)
 			
 			
 			#new_state = np.concatenate((new_state, np.array(env.goal_state[0])))
 
-			distance_sq = (new_state[0]-env.goal_state[0][0])**2 + (new_state[1]-env.goal_state[0][1])**2
-			reward += (  (0.1)/((0.032*distance_sq)-(0.03*math.sqrt(distance_sq))+0.08)  ) - 0.4
+			if not done:
+				distance_sq = (new_state[0]-env.goal_state[0][0])**2 + (new_state[1]-env.goal_state[0][1])**2
+				reward += (  (0.1)/((0.012*distance_sq)-(0.02*math.sqrt(distance_sq))+0.08)  ) - 0.4
 
 
 			new_state = np.reshape(new_state, [1, STATES])

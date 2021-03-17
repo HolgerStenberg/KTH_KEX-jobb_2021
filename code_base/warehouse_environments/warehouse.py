@@ -146,6 +146,8 @@ class Warehouse:
 	#RESETS BACK TO START STATE
 	def reset(self, DQN = False, randomised_position = False):
 
+		self.current_state = None
+		self.matrix = None
 		self.current_state = copy.deepcopy(self.start_state)
 		self.matrix = copy.deepcopy(self.start_matrix) 
 
@@ -251,7 +253,7 @@ class Warehouse:
 		
 		#find combo of goals, that should get 100 points:
 		stated = self.get_state(self.goal_state)
-		self.reward_table[stated] = (2,True)
+		self.reward_table[stated] = (6,True)
 
 		'''
 		tmp_state = copy.deepcopy(self.goal_state)

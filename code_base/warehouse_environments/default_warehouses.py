@@ -127,7 +127,7 @@ def default_warehouse_5():
 def default_warehouse_6():	
 
 	obj = Warehouse(7,7)
-	obj.add_agent(2,2,4,6)
+	obj.add_agent(6,2,6,6)
 	
 
 	obj.obstacle_line("down",4,5,3)

@@ -15,16 +15,16 @@ class DQN_agent:
 		self.state_size = state_size   # used for input  nodes in NN
 		self.action_size = action_size # used for output nodes in NN
 	
-		self.memory = deque(maxlen=5_000) # for training later on
+		self.memory = deque(maxlen=800) # for training later on
 
 
 		#parameter setup (can be changed for tuning behavior)
-		self.gamma = 0.9              # learning rate 
+		self.gamma = 0.99              # learning rate 
 		self.epsilon = 1.0 				# exploration rate
-		self.epsilon_decay_rate = 0.998 # decay of exploration
 		self.epsilon_min = 0.01		    # mimimum possible exploration rate
+		self.epsilon_decay_rate = (1-0.01)/4000  # decay of exploration
 
-		self.learning_rate = 0.010      # this is learning rate for adam in NN
+		self.learning_rate = 0.002      # this is learning rate for adam in NN
 
 		self.model = self._build_model()# initiates the model NN 
 
@@ -32,18 +32,12 @@ class DQN_agent:
 
 		model = Sequential()
 
-		model.add(Dense(8,
+		model.add(Dense(4,
 			            input_dim = self.state_size,
 			            activation = 'relu'))
 		
-		model.add(Dense(5, activation = 'relu')) #hidden layer
-		model.add(Dense(5, activation = 'relu')) #hidden layer
-		model.add(Dense(5, activation = 'relu')) #hidden layer
-		model.add(Dense(5, activation = 'relu')) #hidden layer
-		model.add(Dense(5, activation = 'relu')) #hidden layer
-		model.add(Dense(5, activation = 'relu')) #hidden layer
-		model.add(Dense(5, activation = 'relu')) #hidden layer
-
+		model.add(Dense(4, activation = 'relu')) #hidden layer
+	
 		
 		model.add(Dense(self.action_size, activation = 'linear'))
 
@@ -77,11 +71,11 @@ class DQN_agent:
 			target_f = self.model.predict(state)
 			target_f[0][action] = target
 
-			self.model.fit(state, target_f, epochs=10, verbose=0)
+			self.model.fit(state, target_f, epochs=1, verbose=0)
 
 
 		if self.epsilon > self.epsilon_min:
-			self.epsilon*=self.epsilon_decay_rate
+			self.epsilon-=self.epsilon_decay_rate
 
 
 
