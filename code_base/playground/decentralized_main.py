@@ -1,5 +1,5 @@
-import robots
-import environments
+import decentralized_robots
+import decentralized_environments
 import numpy
 import string
 
@@ -144,11 +144,11 @@ def show_shortest_path(robot, env_size):
 
 def main():
     environment_size = int(input("Input grid size (n in nxn, 4/6/8/10): "))
-    environment = environments.choose_environment(environment_size)
+    environment = decentralized_environments.choose_environment(environment_size)
     print("\n", environment[1], "\n")
 
     number_of_robots = int(input("Input number of robots: "))
-    robot_vector, environment = robots.place_robots(number_of_robots, environment)
+    robot_vector, environment = decentralized_robots.place_robots(number_of_robots, environment)
     print("\n", environment[1], "\n")
 
     robot_vector = training(robot_vector, environment, environment_size)
@@ -157,6 +157,8 @@ def main():
     index = ord(inp)-97
 
     print("\n", robot_vector[index].Q_table)
+
+    print("\n", "Shortest path for robot "+inp+":")
     print("\n", show_shortest_path(robot_vector[index], environment_size))
 
 
