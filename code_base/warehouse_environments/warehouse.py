@@ -167,6 +167,9 @@ class Warehouse:
 			for i in self.start_state:
 				for j in i:
 					np_array.append(j)
+
+			#for i in range(4):
+			#	np_array.append(0)
 			
 			return np.array(np_array)
 
@@ -231,6 +234,30 @@ class Warehouse:
 			for i in self.current_state:
 				for j in i:
 					np_array.append(j)
+
+			"""
+			#WALL VISION			
+			if [self.current_state[0][0]+1,self.current_state[0][1]] in self.obstacles_coords:
+				np_array.append(-1)
+			else:
+				np_array.append(0)
+
+			if [self.current_state[0][0]-1,self.current_state[0][1]] in self.obstacles_coords:
+				np_array.append(-1)
+			else:
+				np_array.append(0)
+
+			if [self.current_state[0][0],self.current_state[0][1]+1] in self.obstacles_coords:
+				np_array.append(-1)
+			else:
+				np_array.append(0)
+
+			if [self.current_state[0][0],self.current_state[0][1]-1] in self.obstacles_coords:
+				np_array.append(-1)
+			else:
+				np_array.append(0)
+			#WALL VISION END
+			"""
 
 			return(np.array(np_array), reward, done)
 		else:

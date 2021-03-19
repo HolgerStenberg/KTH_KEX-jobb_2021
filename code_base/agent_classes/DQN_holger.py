@@ -3,7 +3,7 @@ import time
 import numpy as np
 from collections import deque
 from keras.models import Sequential
-from keras.layers import Dense
+from keras.layers import Dense, Activation
 from keras.optimizers import Adam
 import os
 
@@ -13,38 +13,46 @@ class DQN_agent:
 	def __init__(self, state_size, action_size,rows,columns):
 
 		self.state_size = state_size   # used for input  nodes in NN
-		self.action_size = action_size - 1 # used for output nodes in NN
+		self.action_size = action_size # used for output nodes in NN
 		self.__COLUMNS = columns
 		self.__ROWS = rows
 
 		self.exploration_memory = {} #lookup table for dynamic exploration
+		self.visited_memory = {}
 	
-		self.memory = deque(maxlen=80_000) # for training later on
+		self.memory = deque(maxlen=1_000_000) # for training later on
 
 
 		#parameter setup (can be changed for tuning behavior)
-		self.gamma = 0.9              # learning rate 
+		self.gamma = 0.95              # learning rate 
 		self.epsilon = 1.0 				# exploration rate
-		self.epsilon_min = 0.05		    # mimimum possible exploration rate
-		self.epsilon_decay_rate = (1-0.01)/700  # decay of exploration
+		self.epsilon_min = 0.2		    # mimimum possible exploration rate
+		self.epsilon_decay_rate = 0.997  # decay of exploration
 
-		self.learning_rate = 0.005      # this is learning rate for adam in NN
+		self.learning_rate = 0.001      # this is learning rate for adam in NN
 
 		self.model = self._build_model()# initiates the model NN 
 
 	def _build_model(self):
 
-		model = Sequential()
+		model = Sequential([
 
-		model.add(Dense(24,
-			            input_dim = self.state_size,
-			            activation = 'relu'))
-		
-		model.add(Dense(24, activation = 'relu')) #hidden layer
-		
-		model.add(Dense(self.action_size, activation = 'linear'))
+			Dense(12,input_dim = self.state_size),
+			Activation('relu'),
+			Dense(12),
+			Activation('relu'),
+			Dense(12),
+			Activation('relu'),
+			Dense(12),
+			Activation('relu'),
+			Dense(12),
+			Activation('relu'),
+			Dense(self.action_size)
 
-		model.compile(loss='mse', optimizer=Adam(lr=self.learning_rate))
+			])
+
+
+		model.compile(loss='mse', optimizer=Adam(learning_rate=self.learning_rate))
 
 		return model
 
@@ -82,12 +90,12 @@ class DQN_agent:
 		if np.random.rand() <= self.exploration_memory[state_as_number]:
 			
 			if self.exploration_memory[state_as_number] > self.epsilon_min:
-				self.exploration_memory[state_as_number] -= 0.004
+				self.exploration_memory[state_as_number] -= 0.005
 			
 			return random.randrange(self.action_size)
 
 		act_values = self.model.predict(state) # return np array(s) of predictions
-		return np.argmax(act_values[0]) # return index of highest valued element
+		return np.argmax(act_values) # return index of highest valued element
 
 
 	def replay (self, batch_size):
@@ -97,15 +105,16 @@ class DQN_agent:
 		for state, action, reward, new_state, done in mini_batch:
 			target = reward
 			if not done:
-				target = (reward + self.gamma * np.argmax(self.model.predict(new_state)[0]))
+				target = (reward + (self.gamma * np.max(self.model.predict(new_state),axis=1)))
 			target_f = self.model.predict(state)
+			
 			target_f[0][action] = target
+			
+			self.model.fit(state, target_f, verbose=0)
 
-			self.model.fit(state, target_f, epochs=5, verbose=0)
 
-
-		#if self.epsilon > self.epsilon_min:
-		#	self.epsilon-=self.epsilon_decay_rate
+		if self.epsilon > self.epsilon_min:
+			self.epsilon*=self.epsilon_decay_rate
 
 
 
