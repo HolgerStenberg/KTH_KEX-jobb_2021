@@ -145,14 +145,15 @@ def default_warehouse_6():
 def default_warehouse_7():
 
 
-	obj = Warehouse(5,5)
-	obj.add_agent(4,2,4,4)
+	obj = Warehouse(5,7)
+	obj.add_agent(4,2,2,6)
 
-	obj.obstacle_line("right",1,1,5)
-	obj.obstacle_line("right",5,1,5)
+	obj.obstacle_line("right",1,1,7)
+	obj.obstacle_line("right",5,1,7)
 	obj.obstacle_line("down",2,1,3)
-	obj.obstacle_line("down",2,5,3)
+	obj.obstacle_line("down",2,7,3)
 	obj.obstacle_line("up",4,3,2)
+	obj.obstacle_line("down",2,5,2)
 
 	obj.set_start_state()
 

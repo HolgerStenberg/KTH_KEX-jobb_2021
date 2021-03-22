@@ -24,7 +24,7 @@ from agent_classes.DQN_holger import DQN_agent
 
 
 # HYPER PARAMETERS
-BATCH_SIZE = 1
+BATCH_SIZE = 6
 NUM_EPISODES = 20_000
 MAX_EPISODE_STEPS = 12
 
@@ -54,7 +54,7 @@ def main():
 	for episode in range(NUM_EPISODES):
 
 		#environment setup	
-		state = env.reset(DQN=True,randomised_position=False) # resets environment for new simulation
+		state = env.reset(DQN=True,randomised_position=True) # resets environment for new simulation
 		
 		state = np.concatenate((state, [0]))
 
@@ -68,6 +68,9 @@ def main():
 		rewards_current_episode = 0
 		reward = 0
 
+		if sum(successes_last_100) > 40:
+			agent.epsilon_min = 0
+
 		#iteration process
 		for step in range (MAX_EPISODE_STEPS):
 
@@ -75,7 +78,7 @@ def main():
 			
 			action = agent.act(state)
 			
-			if (episode > 2000): # to see what is going on (simulation)
+			if (sum(successes_last_100) > 70): # to see what is going on (simulation)
 				os.system('clear')
 				print("\033[1;41m" + "simulation run: {}".format(episode) + "\033[1;m")
 				print(f"reward: {reward}")
@@ -97,25 +100,28 @@ def main():
 				new_state[0][2] = 1
 			else:
 				agent.visited_memory[agent.state_number_rep(new_state)] = 1
-				reward+=0.5
+				reward+=1
 
 			#if not done:
 				#distance_sq = (new_state[0]-env.goal_state[0][0])**2 + (new_state[1]-env.goal_state[0][1])**2
 				#reward += (  (0.1)/((0.012*distance_sq)-(0.02*math.sqrt(distance_sq))+0.08)  ) - 0.4
 
-
-			agent.remember(state, action, reward, new_state, done)
-			
-			state = new_state
-
 			rewards_current_episode += reward 
+
 
 			if done == True:
 				moving_average_20.append(rewards_current_episode)
-				if reward == 2.5:
+
+				if reward == 3:
 					successes_last_100.append(1)
+					for i in range(1000):
+						agent.remember(state, action, reward, new_state, done)
+
 				else:
 					successes_last_100.append(0)
+					agent.remember(state, action, reward, new_state, done)
+
+				state = new_state
 
 				os.system('clear')
 				if state[0][0] == env.goal_state[0][0] and state[0][1] == env.goal_state[0][1]:
@@ -128,8 +134,13 @@ def main():
 					\nnumber of successes: {}"\
 					.format(episode, NUM_EPISODES, mean(moving_average_20),sum(successes_last_100),num_of_success))
 				break
+			
+			else:
+				agent.remember(state, action, reward, new_state, done)
+				state = new_state
 
-		if len(agent.memory) > BATCH_SIZE:
+
+		if len(agent.memory) > BATCH_SIZE and sum(successes_last_100) < 50:
 			agent.replay(BATCH_SIZE)
 
 		#rewards_all_episodes.append(rewards_current_episode)

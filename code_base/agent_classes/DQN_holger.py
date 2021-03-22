@@ -20,16 +20,16 @@ class DQN_agent:
 		self.exploration_memory = {} #lookup table for dynamic exploration
 		self.visited_memory = {}
 	
-		self.memory = deque(maxlen=1_000_000) # for training later on
+		self.memory = deque(maxlen=50_000) # for training later on
 
 
 		#parameter setup (can be changed for tuning behavior)
-		self.gamma = 0.95              # learning rate 
+		self.gamma = 0.9              # learning rate 
 		self.epsilon = 1.0 				# exploration rate
-		self.epsilon_min = 0.2		    # mimimum possible exploration rate
+		self.epsilon_min = 0.07		    # mimimum possible exploration rate
 		self.epsilon_decay_rate = 0.997  # decay of exploration
 
-		self.learning_rate = 0.001      # this is learning rate for adam in NN
+		self.learning_rate = 0.0005      # this is learning rate for adam in NN
 
 		self.model = self._build_model()# initiates the model NN 
 
@@ -37,15 +37,11 @@ class DQN_agent:
 
 		model = Sequential([
 
-			Dense(12,input_dim = self.state_size),
+			Dense(24,input_dim = self.state_size),
 			Activation('relu'),
-			Dense(12),
+			Dense(24),
 			Activation('relu'),
-			Dense(12),
-			Activation('relu'),
-			Dense(12),
-			Activation('relu'),
-			Dense(12),
+			Dense(24),
 			Activation('relu'),
 			Dense(self.action_size)
 
@@ -90,7 +86,7 @@ class DQN_agent:
 		if np.random.rand() <= self.exploration_memory[state_as_number]:
 			
 			if self.exploration_memory[state_as_number] > self.epsilon_min:
-				self.exploration_memory[state_as_number] -= 0.005
+				self.exploration_memory[state_as_number] -= 0.03
 			
 			return random.randrange(self.action_size)
 
