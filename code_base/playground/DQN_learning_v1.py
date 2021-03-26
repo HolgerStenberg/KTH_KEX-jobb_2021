@@ -2,15 +2,10 @@
 #Dependencies import
 
 import random
-import math
 import time
+import os
 import numpy as np
 from collections import deque
-from keras.models import Sequential
-from keras.layers import Dense
-from keras.optimizers import Adam
-import os
-
 from statistics import mean
 
 import sys
@@ -101,10 +96,6 @@ def main():
 			else:
 				agent.visited_memory[agent.state_number_rep(new_state)] = 1
 				reward+=1
-
-			#if not done:
-				#distance_sq = (new_state[0]-env.goal_state[0][0])**2 + (new_state[1]-env.goal_state[0][1])**2
-				#reward += (  (0.1)/((0.012*distance_sq)-(0.02*math.sqrt(distance_sq))+0.08)  ) - 0.4
 
 			rewards_current_episode += reward 
 

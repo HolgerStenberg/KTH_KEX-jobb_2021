@@ -1,11 +1,11 @@
 import random
-import time
 import numpy as np
 from collections import deque
-from keras.models import Sequential
-from keras.layers import Dense, Activation
-from keras.optimizers import Adam
 import os
+
+import sys
+sys.path.append('../')
+from neural_nets.neural_nets import *
 
 
 class DQN_agent:
@@ -35,20 +35,7 @@ class DQN_agent:
 
 	def _build_model(self):
 
-		model = Sequential([
-
-			Dense(24,input_dim = self.state_size),
-			Activation('relu'),
-			Dense(24),
-			Activation('relu'),
-			Dense(24),
-			Activation('relu'),
-			Dense(self.action_size)
-
-			])
-
-
-		model.compile(loss='mse', optimizer=Adam(learning_rate=self.learning_rate))
+		model = neural_n_1(self.state_size,self.action_size,self.learning_rate)
 
 		return model
 
