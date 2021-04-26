@@ -25,31 +25,34 @@ from agent_classes.DQN_v2 import DQN_agent
 
 
 # HYPER PARAMETERS
-BATCH_SIZE = 8
+BATCH_SIZE = 16
 NUM_EPISODES = 25_000
-MAX_EPISODE_STEPS = 150
+MAX_EPISODE_STEPS = 200
 
 # MAIN 
 
 def main():
 		
-	env = default_warehouse_2() #initiation of warenhouse environment
-	env.add_agent(2,2,4,4)
-	env.add_agent(2,3,4,3)
+	env = default_warehouse_4() #initiation of warenhouse environment
+	env.add_agent(3,2,4,7)
+	env.add_agent(4,2,6,7)
+	env.add_agent(5,2,2,7)
 	env.set_start_state()
 	env.show()
 
 	agent = DQN_agent(env.agent_state_count*env.agents, env.num_actions, env.ROWS, env.COLUMNS) #init of agent
 	agent2 = DQN_agent(env.agent_state_count*env.agents, env.num_actions, env.ROWS, env.COLUMNS) #init of agent
-	agentos = [agent, agent2]
+	agent3 = DQN_agent(env.agent_state_count*env.agents, env.num_actions, env.ROWS, env.COLUMNS) #init of agent
+	agentos = [agent, agent2, agent3]
 
 	rewards_all_episodes = []    # only for human metrics
-	rewards_current_episode = [0,0]  # only for human metrics
+	rewards_current_episode = [0,0,0]  # only for human metrics
 	num_of_success = 0
 	num_packages = 0
 
 	moving_average_20a = deque(maxlen=400) # only for human metrics
 	moving_average_20b = deque(maxlen=400) # only for human metrics
+	moving_average_20c = deque(maxlen=400) # only for human metrics
 	successes_last_100 = deque(maxlen=100)
 
 	rock = False
@@ -69,7 +72,7 @@ def main():
 
 
 		done = False
-		rewards_current_episode = [0,0]
+		rewards_current_episode = [0,0,0]
 
 		if num_packages > 10:
 			for ag in agentos:
@@ -90,7 +93,7 @@ def main():
 			for i in range(env.agents):
 				action_list.append(agentos[i].act(state[i]))
 
-			if (episode > 14000): # to see what is going on (simulation)
+			if (episode > 20000): # to see what is going on (simulation)
 				if not rock: 
 					input("rock and roll!")
 					rock = True
@@ -113,6 +116,7 @@ def main():
 			if done == True:
 				moving_average_20a.append(rewards_current_episode[0])
 				moving_average_20b.append(rewards_current_episode[1])
+				moving_average_20c.append(rewards_current_episode[2])
 				
 				for i in range(env.agents):
 					if event_list[i][1] == 5:
@@ -129,8 +133,9 @@ def main():
 					print("episode: {}/{}, \
 						\nMoving average: {} \
 						\nMoving average 2: {}\
+						\nMoving average 3: {}\
 						\nnum_packages: {}" \
-						.format(episode, NUM_EPISODES, mean(moving_average_20a),mean(moving_average_20b),num_packages))
+						.format(episode, NUM_EPISODES, mean(moving_average_20a),mean(moving_average_20b),mean(moving_average_20c),num_packages))
 				
 				breakit = False
 				for ev in event_list:

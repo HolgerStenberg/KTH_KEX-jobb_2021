@@ -1,28 +1,21 @@
 import random
+import csv
 import os
 import time
 import numpy as np
 
 import sys
 
-from code_base.warehouse_environments.default_warehouses import default_warehouse_2, default_warehouse_1
-
 sys.path.append('../')
-
+from warehouse_environments.default_warehouses import default_warehouse_DQN, default_warehouse_1
 
 def main():
 
 	#input data
 
-	num_episodes = 500000
-	max_steps_per_episode = 100
-	learning_rate = 0.5
-	discount_rate = 0.99999
-
-
-	num_episodes = 300000
+	num_episodes = 20_000
 	max_steps_per_episode = 200
-	learning_rate = 0.3
+	learning_rate = 0.9
 	discount_rate = 0.9999
 
 	exploration_rate = 1
@@ -34,7 +27,7 @@ def main():
 	#reward list, for performance check
 	rewards_all_episodes = []
 
-	env = default_warehouse_1()
+	env = default_warehouse_DQN()
 	action_space_size = env.num_actions
 	state_space_size = env.total_states
 	q_table = np.zeros((state_space_size, action_space_size))
@@ -55,6 +48,7 @@ def main():
 			else:
 				action = env.sample_action()
 			
+			"""
 			if episode > (num_episodes-100):
 				os.system('clear')
 				print("\033[1;41m" + "simulation run: {}".format(episode) + "\033[1;m")
@@ -62,15 +56,17 @@ def main():
 				print("most recent reward: {}".format(rewards_all_episodes[-1]))
 				env.show()
 				time.sleep(1)
-
+			"""
 			new_state, reward, done = env.step(action)
 
-			if reward == 100 and episode > (num_episodes-100):
-				os.system('clear')
-				env.show()
-				print("YAY")
-				time.sleep(1.5)
 
+
+			
+			if reward == 2 and episode > (num_episodes-100):
+				os.system('clear')
+				print(rewards_current_episode)
+				print(done)
+				time.sleep(2.5)
 			
 
 			# Update Q-table for Q(s,a)
@@ -89,6 +85,13 @@ def main():
 
 		rewards_all_episodes.append(rewards_current_episode)
 
+
+	
+	with open('LOGGED_Q'+'.csv', mode='w') as the_file:
+		writer = csv.writer(the_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+		for the_file_elements in range(len(rewards_all_episodes)):
+			writer.writerow([the_file_elements,rewards_all_episodes[the_file_elements]])
+	
 
 
 

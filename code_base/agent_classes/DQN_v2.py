@@ -21,15 +21,15 @@ class DQN_agent:
 		self.visited_memory = {}
 	
 
-		self.memory = deque(maxlen=50_000) # for training later on
+		self.memory = deque(maxlen=600_000) # for training later on
 
 		#parameter setup (can be changed for tuning behavior)
 		self.gamma = 0.9              # learning rate 
 		self.epsilon = 1.0 				# exploration rate
-		self.epsilon_min = 0.07		    # mimimum possible exploration rate
-		self.epsilon_decay_rate = 0.997  # decay of exploration
+		self.epsilon_min = 0.07         # mimimum possible exploration rate
+		self.epsilon_decay_rate = 0.998  # decay of exploration
 
-		self.learning_rate = 0.0003      # this is learning rate for adam in NN
+		self.learning_rate = 0.0002      # this is learning rate for adam in NN
 
 		self.model = self._build_model()# initiates the model NN 
 

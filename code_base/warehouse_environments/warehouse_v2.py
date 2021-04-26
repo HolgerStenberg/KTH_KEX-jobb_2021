@@ -46,7 +46,6 @@ class Warehouse:
 
 	def update_robot_location_graphics(self,robot_id,action,start_move = False):
 
-		
 		if start_move == True:
 			self.matrix_fill(self.start_state[robot_id][0],\
 				self.start_state[robot_id][1],'.')
@@ -57,44 +56,32 @@ class Warehouse:
 		# stay
 		elif (action == 0):
 			pass
-		
-		# go right
-		elif (action == 1):
 
+		elif self.matrix[self.current_state[robot_id][0]-1][self.current_state[robot_id][1]-1] == chr(ord('a')+robot_id):
 			self.matrix_fill(self.current_state[robot_id][0],\
 				self.current_state[robot_id][1],'.')
 
+		# go right
+		if (action == 1):
 			self.matrix_fill(self.current_state[robot_id][0],\
 				(self.current_state[robot_id][1])+1,chr(ord('a')+robot_id))
 
 		# go left
 		elif (action == 2):
 			self.matrix_fill(self.current_state[robot_id][0],\
-				self.current_state[robot_id][1],'.')
-
-			self.matrix_fill(self.current_state[robot_id][0],\
 				self.current_state[robot_id][1]-1,chr(ord('a')+robot_id))
 
 		# go up
 		elif (action == 3):
-			self.matrix_fill(self.current_state[robot_id][0],\
-				self.current_state[robot_id][1],'.')
-
 			self.matrix_fill(self.current_state[robot_id][0]-1,\
 				self.current_state[robot_id][1],chr(ord('a')+robot_id))
 			
-
 		# go down
 		elif (action == 4):
-			self.matrix_fill(self.current_state[robot_id][0],\
-				self.current_state[robot_id][1],'.')
-
 			self.matrix_fill(self.current_state[robot_id][0]+1,\
 				self.current_state[robot_id][1],chr(ord('a')+robot_id))
 
-		else:
-			pass
-
+		
 
 	def add_to_available_start_states(self):
 		for rows in range(self.ROWS):
@@ -137,6 +124,14 @@ class Warehouse:
 			state_list.append(np_array)
 
 		return state_list
+
+
+	def robot_collisions(self):
+		pass
+
+
+
+
 	#IN SIMULATION
 	def sim_step(self, action_requests):
 
@@ -145,10 +140,12 @@ class Warehouse:
 		for i in action_requests:	
 			action_request_list.append(i)
 
+		coord_list = [] #for collision
 		event_list = []
 		for i in range(self.agents):
 			#updates graphics of matrix
 			self.update_robot_location_graphics(i,action_request_list[i])
+			coord_list.append([self.get_state(self.current_state[i])])
 			
 			# stay
 			if (action_request_list[i] == 0):
@@ -174,31 +171,48 @@ class Warehouse:
 				pass
 
 			new_state = self.get_state(self.current_state[i])
+			coord_list[i].append(new_state)
+
 			reward,done = self.reward_table[new_state]
 
+			#rewards for picking up package
 			if new_state == self.get_state(self.goal_state[i]) and self.current_state[i][2] == 0:
 				self.current_state[i][2] = 1
 				reward = 2
 			
+			#rewards for leaving package
 			if new_state == self.get_state(self.start_state[i]) and self.current_state[i][2] == 1:
 				self.current_state[i][2] = 0
 				reward = 5
 				done = True
 
-			a_tmp_lst = []
-			for cord in self.current_state:
-				for st in cord:
-					a_tmp_lst.append(st)
-		
-			np_array = np.array(a_tmp_lst)
-			#np_array = np.array(self.current_state[i])
-			np_array = np.reshape(np_array, [1, self.agent_state_count*self.agents])
+			np_array = np.array(self.current_state[i])
+			np_array = np.reshape(np_array, [1, self.agent_state_count])
 
-			print(np_array)
-			s
+			event_list.append([np_array, reward, done])
 
-			event_list.append((np_array, reward, done))
+		a_tmp_lst = []
+		for cord in self.current_state:
+			for st in cord:
+				a_tmp_lst.append(st)
 
+		np_array = np.array(a_tmp_lst)
+		np_array = np.reshape(np_array, [1, self.agent_state_count*self.agents])
+
+		for i in range(self.agents):
+			event_list[i][0] = np_array
+			#check for collisions
+			for j in range(self.agents):
+				bound = len(set(coord_list[i]))+ len(set(coord_list[j]))
+				if j == i:
+					pass
+				else:
+					if self.get_state(self.current_state[i]) == self.get_state(self.current_state[j]) \
+					or (len(set(coord_list[i]+coord_list[j])) == 2 and bound != 2):
+						event_list[i][1] = -1
+						event_list[i][2] = True
+
+			
 		return event_list
 
 	#CONSTRUCTION OF ENVIRONMENT *********
@@ -274,18 +288,20 @@ class Warehouse:
 #only run if this file is executed as only file
 def main():
 
-	obj = Warehouse(4,4)
+	obj = Warehouse(5,5)
 	
-	obj.obstacle_line('right',2,1,1)
-
-	obj.add_agent(1,2,3,3)
-	obj.add_agent(1,1,3,4)
-
+	obj.obstacle_line("right",1,1,5)
+	obj.obstacle_line("right",5,1,5)
+	obj.obstacle_line("down",2,1,3)
+	obj.obstacle_line("down",2,5,2)
+	obj.obstacle_line("down",2,5,3)
+	obj.add_agent(4,2,3,4)
+	obj.add_agent(3,2,4,4)
 	obj.set_start_state()
 
 	obj.show()
 
-	print(obj.sim_step([1,4]))
+	print(obj.sim_step([0,1]))
 
 	obj.show()
 
