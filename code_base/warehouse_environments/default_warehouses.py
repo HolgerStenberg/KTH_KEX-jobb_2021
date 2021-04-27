@@ -160,8 +160,25 @@ def default_warehouse_7():
 	
 	return obj
 
-def default_warehouse_DQN():
+def default_warehouse_DQN_1():
 
+	obj = Warehouse(5,6)
+	obj.add_agent(2,2,4,4)
+	
+
+	
+	obj.obstacle_line("right",1,1,6)
+	obj.obstacle_line("right",5,1,6)
+	obj.obstacle_line("down",2,1,3)
+	obj.obstacle_line("down",2,6,3)
+
+	obj.set_start_state()
+
+	obj.show()
+	
+	return obj
+
+def default_warehouse_DQN_2():
 
 	obj = Warehouse(5,6)
 	obj.add_agent(2,2,4,4)
@@ -178,4 +195,3 @@ def default_warehouse_DQN():
 	obj.show()
 	
 	return obj
-

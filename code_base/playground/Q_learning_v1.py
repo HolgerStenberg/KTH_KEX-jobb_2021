@@ -7,27 +7,27 @@ import numpy as np
 import sys
 
 sys.path.append('../')
-from warehouse_environments.default_warehouses import default_warehouse_DQN, default_warehouse_1
+from warehouse_environments.default_warehouses import default_warehouse_DQN_1, default_warehouse_1
 
 def main():
 
 	#input data
 
-	num_episodes = 20_000
+	num_episodes = 200_000
 	max_steps_per_episode = 200
-	learning_rate = 0.9
+	learning_rate = 0.98
 	discount_rate = 0.9999
 
 	exploration_rate = 1
 	max_exploration_rate = 1
-	min_exploration_rate = 0.1
+	min_exploration_rate = 0.01
 	exploration_decay_rate = 0.00001
 
 
 	#reward list, for performance check
 	rewards_all_episodes = []
 
-	env = default_warehouse_DQN()
+	env = default_warehouse_DQN_1()
 	action_space_size = env.num_actions
 	state_space_size = env.total_states
 	q_table = np.zeros((state_space_size, action_space_size))
@@ -60,21 +60,17 @@ def main():
 			new_state, reward, done = env.step(action)
 
 
-
-			
-			if reward == 2 and episode > (num_episodes-100):
-				os.system('clear')
-				print(rewards_current_episode)
-				print(done)
-				time.sleep(2.5)
-			
-
 			# Update Q-table for Q(s,a)
 			q_table[state, action] = q_table[state, action] * (1 - learning_rate) + \
 			learning_rate * (reward+discount_rate*np.max(q_table[new_state, :]))
 
 			state = new_state
 			rewards_current_episode += reward
+
+
+			success_ok = 0
+			if reward == 2:
+				success_ok = 1
 
 			if done == True:
 				break
@@ -83,7 +79,7 @@ def main():
 		exploration_rate = min_exploration_rate + \
 		(max_exploration_rate - min_exploration_rate) * np.exp(-exploration_decay_rate*episode)
 
-		rewards_all_episodes.append(rewards_current_episode)
+		rewards_all_episodes.append(success_ok)
 
 
 	

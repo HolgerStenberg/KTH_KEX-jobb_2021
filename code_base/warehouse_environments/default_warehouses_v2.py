@@ -72,6 +72,29 @@ def default_warehouse_4():
 	return obj
 
 
+def default_warehouse_final_boss():
+
+
+	obj = Warehouse(10,10)
+
+	obj.obstacle_line("right",1,1,10)
+	obj.obstacle_line("right",10,1,10)
+	obj.obstacle_line("down",2,1,8)
+	obj.obstacle_line("down",2,10,8)
+
+
+	obj.obstacle_line("right",3,5,2)
+	obj.obstacle_line("right",4,5,1)
+	obj.obstacle_line("right",5,8,2)
+
+	obj.obstacle_line("down",7,5,2)
+	obj.obstacle_line("down",8,8,2)
+
+	return obj
+
+
+
+
 def main():
 	obj = default_warehouse_3
 	obj.show()
